@@ -128,12 +128,12 @@ startbbrmod(){
 	if [[ "${release}" == "centos" ]]; then
 		yum install -y make gcc
 		mkdir bbrmod && cd bbrmod
-		wget -N --no-check-certificate http://${github}/bbr/tcp_tsunami.c
-		echo "obj-m:=tcp_tsunami.o" > Makefile
+		wget -N --no-check-certificate https://raw.githubusercontent.com/sqwwqw5/general/master/General/CentOS/source/tcp_chuck.c
+		echo "obj-m:=tcp_chuck.o" > Makefile
 		make -C /lib/modules/$(uname -r)/build M=`pwd` modules CC=/usr/bin/gcc
-		chmod +x ./tcp_tsunami.ko
-		cp -rf ./tcp_tsunami.ko /lib/modules/$(uname -r)/kernel/net/ipv4
-		insmod tcp_tsunami.ko
+		chmod +x ./tcp_chuck.ko
+		cp -rf ./tcp_chuck.ko /lib/modules/$(uname -r)/kernel/net/ipv4
+		insmod tcp_chuck.ko
 		depmod -a
 	else
 		apt-get update
@@ -156,7 +156,7 @@ startbbrmod(){
 	
 
 	echo "net.core.default_qdisc=fq" >> /etc/sysctl.conf
-	echo "net.ipv4.tcp_congestion_control=tsunami" >> /etc/sysctl.conf
+	echo "net.ipv4.tcp_congestion_control=chuck" >> /etc/sysctl.conf
 	sysctl -p
     cd .. && rm -rf bbrmod
 	echo -e "${Info}魔改版BBR启动成功！"
